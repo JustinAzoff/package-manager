@@ -1785,7 +1785,10 @@ class Manager:
             git.exc.GitCommandError: when failing to clone the package repo
         """
         clonepath = os.path.join(self.scratch_dir, package.name)
-        clone = _clone_package(package, clonepath, version)
+        if os.path.isdir(package.git_url):
+            clone = git.Repo(package.git_url)
+        else:
+            clone = _clone_package(package, clonepath, version)
         versions = git_version_tags(clone)
 
         if not version:
