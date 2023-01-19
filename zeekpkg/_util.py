@@ -170,8 +170,9 @@ def git_checkout(clone, version):
         git.exc.GitCommandError: if the git repo is invalid
     """
     clone.git.checkout(version)
-    clone.git.submodule("sync", "--recursive")
-    clone.git.submodule("update", "--recursive", "--init")
+    if len(clone.submodules):
+        clone.git.submodule("sync", "--recursive")
+        clone.git.submodule("update", "--recursive", "--init")
 
 
 def git_default_branch(repo):
