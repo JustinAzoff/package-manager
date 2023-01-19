@@ -6,6 +6,7 @@ methods to interact with and operate on Zeek packages.
 import configparser
 import copy
 import filecmp
+import functools
 import json
 import os
 import shutil
@@ -586,6 +587,7 @@ class Manager:
 
         return ""
 
+    @functools.cached_property
     def source_packages(self):
         """Return a list of :class:`.package.Package` within all sources."""
         rval = []
@@ -646,7 +648,7 @@ class Manager:
         rval = []
         canon_url = canonical_url(pkg_path)
 
-        for pkg in self.source_packages():
+        for pkg in self.source_packages:
             if pkg.matches_path(canon_url):
                 rval.append(pkg)
 
@@ -3005,7 +3007,7 @@ class Manager:
         if not package.source:
             # If installing directly from git URL, see if it actually is found
             # in a package source and fill in those details.
-            for pkg in self.source_packages():
+            for pkg in self.source_packages:
                 if pkg.git_url == package.git_url:
                     package.source = pkg.source
                     package.directory = pkg.directory
