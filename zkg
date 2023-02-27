@@ -1026,7 +1026,7 @@ def cmd_unbundle(manager, args, config, configfile):
         for git_url, version, _ in bundle_info:
             name = git_url
 
-            for pkg in manager.source_packages():
+            for pkg in manager.source_packages:
                 if pkg.git_url == git_url:
                     name = pkg.qualified_name()
                     break
@@ -1041,7 +1041,7 @@ def cmd_unbundle(manager, args, config, configfile):
         for git_url, version, info in bundle_info:
             name = git_url
 
-            for pkg in manager.source_packages():
+            for pkg in manager.source_packages:
                 if pkg.git_url == git_url:
                     name = pkg.qualified_name()
                     break
@@ -1263,7 +1263,7 @@ def cmd_refresh(manager, args, config, configfile):
     for source in args.sources:
         print(f"Refresh package source: {source}")
 
-        src_pkgs_before = {i.qualified_name() for i in manager.source_packages()}
+        src_pkgs_before = {i.qualified_name() for i in manager.source_packages}
 
         error = ""
         aggregation_issues = []
@@ -1280,7 +1280,7 @@ def cmd_refresh(manager, args, config, configfile):
             print_error(f'error: failed to refresh "{source}": {error}')
             continue
 
-        src_pkgs_after = {i.qualified_name() for i in manager.source_packages()}
+        src_pkgs_after = {i.qualified_name() for i in manager.source_packages}
 
         if src_pkgs_before == src_pkgs_after:
             print("\tNo membership changes")
@@ -1780,7 +1780,7 @@ def _get_filtered_packages(manager, category):
     for ipkg in manager.installed_packages():
         pkg_dict[ipkg.package.qualified_name()] = ipkg
 
-    for pkg in manager.source_packages():
+    for pkg in manager.source_packages:
         pkg_qn = pkg.qualified_name()
 
         if pkg_qn not in pkg_dict:
@@ -1846,7 +1846,7 @@ def cmd_list(manager, args, config, configfile):
 
 
 def cmd_search(manager, args, config, configfile):
-    src_pkgs = manager.source_packages()
+    src_pkgs = manager.source_packages
     matches = set()
 
     for search_text in args.search_text:
